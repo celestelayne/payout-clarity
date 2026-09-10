@@ -1,10 +1,8 @@
-# Evolve Payout Detail Prototype
+# Payout Clarity Prototype
 
-| Overview | Detail |
-| :---        | :---        |
-| Live Prototype | [https://evolve-take-home.vercel.app/](https://evolve-take-home.vercel.app/) |
-| Stack | React + TypeScript + Vite + Tailwind, deployed to Vercel |
-| Scenario | Jordan Avery viewing an in-flight booking for South Congress Loft. |
+A booking-detail screen for short-term-rental owners. It answers one question — *what am I being paid, and why is it less than what the guest paid?* — and holds its shape across the five states a payout can be in.
+
+**[Live prototype →](https://payout-clarity.vercel.app)**
 
 ## Key Decisions
 
@@ -59,6 +57,26 @@ The provided dataset includes an aggregate base rate for each stay, but does not
 ```
 The full augmented booking is available in `src/data/payouts-dataset.json`.
 
+
+## The money model
+
+Four pots of money, one of them the owner's. The screen's job is to keep them distinguishable.
+
+| | |
+|---|---|
+| Guest total | `$1,020.40` |
+| Occupancy taxes | `−148.26` — collected from the guest, remitted to tax authorities |
+| **Owner earnings** | `872.14` — accommodation `$732.14` + cleaning `$140.00` |
+| Management fee | `−109.82` — 15% of accommodation |
+| **Payout** | `$762.32` |
+
+Both subtractions reduce the number and they are not the same kind of fact. Tax was never the owner's money; the fee was. The UI separates *guest charges*, *owner earnings* and *platform deductions* in words rather than leaving it to a minus sign.
+
+## Payout states
+
+`payout.status` is the source of truth. State is never derived from whether the
+amount is falsy, and never from comparing dates.
+
 ## AI Workflow
 
 <!-- Add after completing the workflow. -->
@@ -70,16 +88,8 @@ The full augmented booking is available in `src/data/payouts-dataset.json`.
 | 4. Build | Direct implementation, inspect, adjust | Generate React/TS structure, components, states, data augmentation | Working deployed prototype
 | 5. Validate + Package | Smoke-test tasks, accessibility, responsive behavior; record decisions | Code review, edge-state audit, README/video-outline assistance | Repo + README + video walkthrough 
 
-## Running Locally
-
-```bash
-npm install
-npm run dev
-```
-
 ## Project Structure
-This prototype uses a feature-oriented structure, keeping booking-detail UI and
-business logic together while shared components and utilities remain reusable.
+This prototype uses a feature-oriented structure, keeping booking-detail UI and business logic together while shared components and utilities remain reusable.
 
 ```markdown
 src/
@@ -96,3 +106,27 @@ src/
 ├── App.tsx
 └── index.css
 ```
+
+## Constraint
+
+The prototype renders only what the data supports. It shows *which* promotions moved a listed rate to a booked rate; it does not explain why the listed rate was set, because nothing in the dataset says. Plausible-sounding explanations on a financial screen reduce trust rather than building it.
+
+## Not built
+
+- Multi-property or portfolio views — the data models one owner and one listing
+- Cancellation accounting — the outcome is present, the policy behind it isn't
+- The long-stay (45-night) view — designed, [written up here](#), not yet built
+
+## Run it
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build
+```
+
+## Stack
+
+React · TypeScript · Vite · Tailwind · deployed on Vercel
+
+`vercel.json` rewrites all paths to `index.html` so every route deep-links.
