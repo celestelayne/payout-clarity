@@ -2,7 +2,7 @@
 
 A booking-detail screen for short-term-rental owners. It answers one question — *what am I being paid, and why is it less than what the guest paid?* — and holds its shape across the five states a payout can be in.
 
-**[Live prototype →](https://payout-clarity.vercel.app)**
+**[Live prototype →](https://evolve-take-home.vercel.app/)**
 
 ## Key Decisions
 
@@ -21,7 +21,9 @@ A booking-detail screen for short-term-rental owners. It answers one question �
   "type": "base"
 }
 ```
-The provided dataset includes an aggregate base rate for each stay, but does not include individual nightly rates or merchandising/discount details. Because the exercise asks owners to understand what rates were booked and why, I extended the selected booking with synthetic `nightlyRates` and `merchandising` data to support that experience. **Note:** These additions are just examples. The original booking and payout numbers haven't changed, and the nightly rates still add up to the original total.
+The provided dataset includes an aggregate base rate for each stay, but does not include individual nightly rates or merchandising/discount details. Because the exercise asks owners to understand what rates were booked and why, I extended the selected booking with synthetic `nightlyRates` and `merchandising` data to support that experience. 
+
+**Note:** These additions are just examples. The original booking and payout numbers haven't changed, and the nightly rates still add up to the original total.
 
 #### Proposed data:
 ```typescript
@@ -74,8 +76,23 @@ Both subtractions reduce the number and they are not the same kind of fact. Tax 
 
 ## Payout states
 
-`payout.status` is the source of truth. State is never derived from whether the
-amount is falsy, and never from comparing dates.
+`payout.status` is the source of truth. State is never derived from whether the amount is falsy, and never from comparing dates.
+
+## Data
+
+Fixtures only — no API, no backend.
+
+The source dataset carried an aggregate stay rate (`$732.14` for six nights) and no per-night breakdown. Per-night rates and promotions are **synthetic**, generated to reconcile exactly to that aggregate. They are marked as added data in `src/fixtures/` rather than mixed into the original shape.
+
+One invariant holds across every fixture:
+
+```
+sum(nightlyRates.bookedRate) === accommodationTotal
+```
+
+## Constraint
+
+The prototype renders only what the data supports. It shows *which* promotions moved a listed rate to a booked rate; it does not explain why the listed rate was set, because nothing in the dataset says. Plausible-sounding explanations on a financial screen reduce trust rather than building it.
 
 ## AI Workflow
 
@@ -107,10 +124,6 @@ src/
 └── index.css
 ```
 
-## Constraint
-
-The prototype renders only what the data supports. It shows *which* promotions moved a listed rate to a booked rate; it does not explain why the listed rate was set, because nothing in the dataset says. Plausible-sounding explanations on a financial screen reduce trust rather than building it.
-
 ## Not built
 
 - Multi-property or portfolio views — the data models one owner and one listing
@@ -128,5 +141,3 @@ npm run build
 ## Stack
 
 React · TypeScript · Vite · Tailwind · deployed on Vercel
-
-`vercel.json` rewrites all paths to `index.html` so every route deep-links.
