@@ -88,7 +88,7 @@ const getReconciliationRows = (
       detail: `Accommodation ${formatMoney(getBaseTotal(booking))} + cleaning fee ${formatMoney(getCleaningFee(booking))}, before management fee`,
     },
     {
-      label: 'Evolve management fee',
+      label: 'Property management fee',
       amount: -managementFee,
       detail: `${feeRatePct}% of accommodation`,
     },

@@ -2,7 +2,7 @@
 
 A booking-detail screen for short-term-rental owners. It answers one question — *what am I being paid, and why is it less than what the guest paid?* — and holds its shape across the five states a payout can be in.
 
-**[Live prototype →](https://evolve-take-home.vercel.app/)**
+**[Live prototype →](https://payout-clarity.vercel.app/)**
 
 ## Key Decisions
 
