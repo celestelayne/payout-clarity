@@ -128,7 +128,7 @@ src/
 
 - Multi-property or portfolio views — the data models one owner and one listing
 - Cancellation accounting — the outcome is present, the policy behind it isn't
-- The long-stay (45-night) view — designed, [written up here](#), not yet built
+- The long-stay (45-night) view — designed, [written up here](./src/docs/forty-five-nights.md), not yet built
 
 ## Run it
 
