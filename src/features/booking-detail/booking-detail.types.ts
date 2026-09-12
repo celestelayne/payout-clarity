@@ -61,6 +61,10 @@ export type Payout = {
 
 export type Booking = {
   id: string;
+  scenario?: {
+    source: string;
+    purpose?: string;
+  };
   status: ReservationStatus;
   bookingSite: string | null;
   guest: Guest | null;
